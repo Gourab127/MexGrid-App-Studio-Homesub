@@ -1,1910 +1,386 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MexGrid App Studio | Home, Demos & Partner Hub</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: radial-gradient(circle at top, #0c1933 0%, #070b14 55%, #05080f 100%);
-    color: #f3f4f6;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    min-height: 100vh;
-    padding-bottom: 86px;
-  }
-  .hidden { display: none !important; }
-  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
-
-  /* Home Blank Mode: hide chrome & footer when on blank Home */
-  body.home-blank-mode .chrome-bar,
-  body.home-blank-mode .site-footer,
-  body.home-blank-mode .floating-wa {
-    display: none !important;
-  }
-  body.home-blank-mode {
-    background: #05080f;
-    padding-bottom: 72px;
-  }
-
-  /* Top Announcement */
-  .ann-bar {
-    background: linear-gradient(90deg, #38bdf8, #67e8f9, #0ea5e9);
-    color: #090d16;
-    font-size: 12px;
-    font-weight: 800;
-    padding: 7px 12px;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  /* Navbar */
-  .top-nav {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    background: rgba(13, 22, 40, 0.96);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(56, 189, 248, 0.25);
-    padding: 12px 16px;
-  }
-  .nav-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .brand-box { display: flex; align-items: center; gap: 10px; }
-  .logo-badge {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #38bdf8, #2563eb);
-    color: #05080f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .brand-title { font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
-  .brand-title span { color: #38bdf8; }
-  .brand-sub { display: block; font-size: 10px; color: #67e8f9; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-
-  .btn {
-    border: none;
-    border-radius: 11px;
-    font-weight: 800;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    transition: transform 0.15s ease, opacity 0.15s ease;
-    text-decoration: none;
-  }
-  .btn:active { transform: scale(0.97); }
-  .btn-sm { padding: 8px 13px; font-size: 12px; }
-  .btn-md { padding: 10px 16px; font-size: 12px; }
-  .btn-sky { background: #0284c7; color: #fff; }
-  .btn-sky:hover { background: #0ea5e9; }
-  .btn-cyan { background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: #05080f; }
-  .btn-amber { background: linear-gradient(135deg, #fbbf24, #f97316); color: #05080f; }
-  .btn-emerald { background: linear-gradient(135deg, #059669, #0d9488); color: #fff; }
-  .btn-dark { background: #111827; color: #e5e7eb; border: 1px solid rgba(56, 189, 248, 0.3); }
-  .red-sky-btn {
-    background: linear-gradient(135deg, #ef4444 0%, #e11d48 45%, #0ea5e9 100%);
-    color: #fff;
-  }
-
-  /* Sections */
-  .blank-home-area {
-    min-height: 78vh;
-    width: 100%;
-    background: #05080f;
-  }
-  .ext-home-wrap {
-    padding: 12px 16px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .ext-home-frame {
-    width: 100%;
-    min-height: 82vh;
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    border-radius: 14px;
-    background: #070b14;
-  }
-
-  /* Embedded Studio Home Page Styles */
-  .studio-home {
-    background: #020617;
-    color: #f1f5f9;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(99, 102, 241, 0.25);
-  }
-  .sh-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(2, 6, 23, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(30, 41, 59, 0.85);
-    padding: 14px 20px;
-  }
-  .sh-header-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .sh-logo-row { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .sh-mg {
-    width: 38px;
-    height: 38px;
-    border-radius: 11px;
-    background: linear-gradient(135deg, #6366f1, #06b6d4);
-    color: #fff;
-    font-weight: 800;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .sh-nav { display: flex; gap: 20px; font-size: 13px; font-weight: 600; color: #cbd5e1; flex-wrap: wrap; }
-  .sh-nav a { color: inherit; text-decoration: none; }
-  .sh-nav a:hover { color: #fff; }
-  .sh-hero {
-    padding: 64px 20px 52px;
-    text-align: center;
-    background: radial-gradient(circle at top, rgba(99, 102, 241, 0.2), transparent 62%);
-  }
-  .sh-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(99, 102, 241, 0.12);
-    border: 1px solid rgba(99, 102, 241, 0.35);
-    color: #a5b4fc;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-  .sh-hero h1 { font-size: 32px; line-height: 1.18; font-weight: 800; color: #fff; max-width: 820px; margin: 0 auto; }
-  .sh-grad {
-    background: linear-gradient(90deg, #818cf8, #67e8f9, #6ee7b7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .sh-hero p { max-width: 660px; margin: 18px auto 0; color: #cbd5e1; font-size: 15px; line-height: 1.65; }
-  .sh-cta-row { display: flex; justify-content: center; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
-  .sh-btn-primary {
-    background: linear-gradient(90deg, #4f46e5, #0891b2);
-    color: #fff;
-    padding: 12px 22px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .sh-btn-ghost {
-    background: rgba(15, 23, 42, 0.75);
-    color: #e2e8f0;
-    padding: 12px 22px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    border: 1px solid #334155;
-    text-decoration: none;
-  }
-  .sh-platforms {
-    max-width: 780px;
-    margin: 40px auto 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 10px;
-  }
-  .sh-plat-box {
-    background: rgba(15, 23, 42, 0.65);
-    border: 1px solid #1e293b;
-    border-radius: 12px;
-    padding: 11px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #cbd5e1;
-  }
-  .sh-section { padding: 60px 20px; border-top: 1px solid rgba(30, 41, 59, 0.75); }
-  .sh-container { max-width: 1120px; margin: 0 auto; }
-  .sh-sec-head { text-align: center; margin-bottom: 36px; }
-  .sh-sec-head span { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #22d3ee; }
-  .sh-sec-head h2 { font-size: 26px; font-weight: 800; color: #fff; margin-top: 6px; }
-  .sh-sec-head p { color: #94a3b8; font-size: 14px; max-width: 560px; margin: 8px auto 0; }
-  .sh-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
-  .sh-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
-  .sh-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; align-items: center; }
-  .sh-card {
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid #1e293b;
-    border-radius: 16px;
-    padding: 22px;
-  }
-  .sh-card h3 { font-size: 17px; font-weight: 700; color: #fff; margin-top: 10px; }
-  .sh-card p { font-size: 13px; color: #94a3b8; margin-top: 8px; line-height: 1.55; }
-  .sh-list { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #cbd5e1; }
-  .sh-step { display: flex; gap: 12px; margin-top: 14px; }
-  .sh-step-num {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: #4f46e5;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .sh-pkg-featured { border: 2px solid #6366f1; background: #0f172a; }
-  .sh-pkg-btn {
-    display: block;
-    margin-top: 22px;
-    padding: 11px;
-    border-radius: 12px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    color: #fff;
-    border: 1px solid #334155;
-  }
-  .sh-pkg-btn-solid { background: #4f46e5; border-color: #4f46e5; }
-  .sh-contact-box {
-    max-width: 780px;
-    margin: 0 auto;
-    border-radius: 22px;
-    border: 1px solid rgba(99, 102, 241, 0.35);
-    background: linear-gradient(135deg, #0f172a, #1e1b4b);
-    padding: 36px 22px;
-    text-align: center;
-  }
-  .sh-form { max-width: 480px; margin: 24px auto 0; text-align: left; display: flex; flex-direction: column; gap: 14px; }
-  .sh-form label { display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px; }
-  .sh-input {
-    width: 100%;
-    padding: 11px 14px;
-    border-radius: 12px;
-    border: 1px solid #334155;
-    background: rgba(2, 6, 23, 0.85);
-    color: #fff;
-    font-size: 13px;
-  }
-  .sh-footer {
-    border-top: 1px solid #1e293b;
-    padding: 24px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 12px;
-    color: #94a3b8;
-  }
-
-  .demos-hero { text-align: center; padding: 34px 16px 22px; }
-  .demos-hero h2 { font-size: 28px; font-weight: 900; color: #fff; margin: 10px 0; }
-  .demos-hero h2 span { color: #38bdf8; }
-  .demos-hero p { font-size: 13px; color: rgba(186, 230, 253, 0.78); max-width: 680px; margin: 0 auto 18px; line-height: 1.6; }
-  .search-wrap { max-width: 440px; margin: 0 auto; position: relative; }
-  .search-wrap i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #38bdf8; }
-  .search-input {
-    width: 100%;
-    background: rgba(9, 13, 22, 0.95);
-    border: 1px solid rgba(56, 189, 248, 0.45);
-    border-radius: 12px;
-    padding: 11px 14px 11px 38px;
-    color: #fff;
-    font-size: 13px;
-    outline: none;
-  }
-
-  .apps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-  .glass {
-    background: rgba(13, 22, 40, 0.95);
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    border-radius: 16px;
-  }
-  .app-card { padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
-  .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .badge-num {
-    font-size: 11px;
-    font-weight: 800;
-    color: #7dd3fc;
-    background: rgba(14, 165, 233, 0.16);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    padding: 3px 8px;
-    border-radius: 7px;
-  }
-  .app-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 6px; }
-  .app-desc { font-size: 12px; color: rgba(186, 230, 253, 0.72); line-height: 1.5; }
-  .card-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-
-  /* Footer */
-  .site-footer { text-align: center; padding: 18px 16px; font-size: 12px; color: rgba(186, 230, 253, 0.5); }
-
-  /* Bottom Nav */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 45;
-    background: rgba(9, 16, 31, 0.97);
-    backdrop-filter: blur(14px);
-    border-top: 1px solid rgba(56, 189, 248, 0.35);
-    padding: 8px 10px;
-  }
-  .bottom-nav-grid {
-    max-width: 780px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-  }
-  .b-btn {
-    padding: 8px 6px;
-    border-radius: 11px;
-    font-size: 11px;
-    font-weight: 800;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-  }
-  .b-tab-active { background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: #05080f; }
-  .b-tab-idle { background: #111827; color: #bae6fd; border: 1px solid rgba(56, 189, 248, 0.25); }
-
-  /* Floating WhatsApp */
-  .floating-wa {
-    position: fixed;
-    bottom: 76px;
-    right: 16px;
-    z-index: 44;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #059669;
-    color: #fff;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
-  }
-
-  /* Modals */
-  .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.88);
-    z-index: 60;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 14px;
-    overflow-y: auto;
-  }
-  .modal-backdrop.open { display: flex; }
-  .modal-box {
-    width: 100%;
-    max-width: 960px;
-    max-height: 92vh;
-    overflow-y: auto;
-    padding: 22px;
-    position: relative;
-  }
-  .modal-sm { max-width: 380px; text-align: center; }
-  .modal-md { max-width: 460px; }
-  .close-x {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    background: transparent;
-    border: none;
-    color: #9ca3af;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  .close-x:hover { color: #fff; }
-
-  .field-input, .field-select, .field-area {
-    width: 100%;
-    background: #090d16;
-    border: 1px solid rgba(56, 189, 248, 0.32);
-    border-radius: 10px;
-    padding: 9px 12px;
-    color: #fff;
-    font-size: 12px;
-    outline: none;
-  }
-  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-  .panel-card { background: rgba(9, 13, 22, 0.85); border: 1px solid rgba(56, 189, 248, 0.22); border-radius: 12px; padding: 14px; }
-  .row-flex { display: flex; gap: 8px; align-items: center; }
-  .flex-1 { flex: 1; }
-  .mt-2 { margin-top: 8px; }
-  .mt-3 { margin-top: 12px; }
-  .mt-4 { margin-top: 16px; }
-  .mb-2 { margin-bottom: 8px; }
-  .mb-3 { margin-bottom: 12px; }
-  .text-xs { font-size: 11px; }
-  .text-sm { font-size: 12px; }
-  .font-bold { font-weight: 700; }
-  .text-muted { color: #9ca3af; }
-  .text-sky { color: #38bdf8; }
-  .text-cyan { color: #67e8f9; }
-  .text-emerald { color: #34d399; }
-  .text-amber { color: #fbbf24; }
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
-  th, td { padding: 10px; border-bottom: 1px solid #1f2937; }
-  th { background: #111827; color: #38bdf8; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MexGrid App Studio | Mobile, Web, Native & Telegram Apps</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding-bottom: 76px;
+    }
+  </style>
 </head>
-<body class="home-blank-mode">
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
 
-<!-- Top Announcement -->
-<div class="ann-bar chrome-bar">
-  <marquee scrollamount="5">🚀 Welcome to MexGrid App Studio! 100% Genuine Software & App Solutions. Explore 44+ Ready Demos & Custom Buttons — Order Now!</marquee>
-</div>
-
-<!-- Top Navbar -->
-<nav class="top-nav chrome-bar">
-  <div class="nav-inner">
-    <div class="brand-box">
-      <div onclick="handleSecretTap()" title="Tap 5 times for Admin" class="logo-badge">
-        <i class="fas fa-layer-group"></i>
-      </div>
-      <div>
-        <span class="brand-title">MEXGRID <span>APP STUDIO</span></span>
-        <span class="brand-sub">Digital Portal & Live Demo Hub</span>
-      </div>
-    </div>
-    <div class="row-flex">
-      <button type="button" onclick="openShareModal()" class="btn btn-sky btn-sm"><i class="fas fa-share-alt"></i> Share</button>
-      <button type="button" onclick="openPayModal()" class="btn red-sky-btn btn-sm"><i class="fas fa-qrcode"></i> Pay</button>
-    </div>
-  </div>
-</nav>
-
-<!-- Active Referral Banner -->
-<div class="wrap chrome-bar">
-  <div id="activeRefBanner" class="hidden panel-card mt-3 text-center text-xs font-bold text-cyan">
-    Referral Partner Active: <span id="activeRefCodeText" class="text-white"></span>
-  </div>
-</div>
-
-<!-- ========================================================= -->
-<!-- SECTION 1: HOME PAGE VIEW (Blank Until GitHub Link Added) -->
-<!-- ========================================================= -->
-<section id="sectionHome">
-  <div id="externalHomeContainer" class="hidden ext-home-wrap">
-    <iframe id="externalHomeIframe" src="" class="ext-home-frame" loading="lazy"></iframe>
-  </div>
-
-  <!-- Embedded Studio Home Page (Shown when activated via Admin or openEmbeddedStudioHome) -->
-  <div id="embeddedStudioHome" class="hidden ext-home-wrap">
-    <div class="studio-home">
-      <header class="sh-header">
-        <div class="sh-header-inner">
-          <a href="#sh-top" class="sh-logo-row">
-            <div class="sh-mg">MG</div>
-            <div>
-              <div style="font-weight:800; color:#fff; font-size:15px;">MexGrid</div>
-              <div style="font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:#22d3ee;">App Studio</div>
-            </div>
-          </a>
-          <nav class="sh-nav">
-            <a href="#sh-services">Services</a>
-            <a href="#sh-why-us">Why Us</a>
-            <a href="#sh-process">How It Works</a>
-            <a href="#sh-packages">Packages</a>
-            <a href="#sh-contact">Contact</a>
-          </nav>
-          <a href="#sh-contact" class="btn btn-sky btn-sm">Start a Project</a>
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-md">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+      <a href="#" class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 font-extrabold text-white shadow-lg shadow-indigo-500/20">
+          MG
         </div>
-      </header>
-
-      <section id="sh-top" class="sh-hero">
-        <div class="sh-pill">Mobile • Web • Native • Telegram Solutions</div>
-        <h1>Turn Bold Ideas Into <span class="sh-grad">Smart Apps & Web Experiences</span></h1>
-        <p>At <strong style="color:#fff;">MexGrid App Studio</strong>, we build fast Mobile Apps, responsive Websites, high-performance Native Apps, and interactive Telegram Apps—under one roof with clean structure and practical control.</p>
-        <div class="sh-cta-row">
-          <button type="button" onclick="switchMainSection('demos')" class="sh-btn-primary">Explore Services & Demos</button>
-          <a href="#sh-contact" class="sh-btn-ghost">Talk to Us</a>
+        <div>
+          <span class="block text-lg font-bold tracking-tight text-white">MexGrid</span>
+          <span class="block text-xs font-medium uppercase tracking-widest text-cyan-400">App Studio</span>
         </div>
-        <div class="sh-platforms">
-          <div class="sh-plat-box">📱 Mobile Apps</div>
-          <div class="sh-plat-box">🌐 Websites & Android Web</div>
-          <div class="sh-plat-box">⚡ Native Builds</div>
-          <div class="sh-plat-box">🤖 Telegram Apps</div>
-        </div>
-      </section>
+      </a>
 
-      <section id="sh-services" class="sh-section">
-        <div class="sh-container">
-          <div class="sh-sec-head">
-            <span>Core Services</span>
-            <h2>What We Build</h2>
-            <p>Tailored solutions across devices, browsers, and chat interfaces—designed for speed and real-world use.</p>
-          </div>
-          <div class="sh-grid-4">
-            <div class="sh-card">
-              <div style="font-size:22px;">📱</div>
-              <h3>Mobile & Native Apps</h3>
-              <p>Fast, smooth Android and mobile applications built with clean UI, device capabilities, and reliable performance.</p>
-            </div>
-            <div class="sh-card">
-              <div style="font-size:22px;">🌐</div>
-              <h3>Websites & Android Web</h3>
-              <p>Lightweight, mobile-friendly websites, landing pages, and showcase storefronts built for browsers and WebView.</p>
-            </div>
-            <div class="sh-card">
-              <div style="font-size:22px;">🤖</div>
-              <h3>Telegram Apps & Bots</h3>
-              <p>Telegram Mini Apps and custom bot workflows with interactive menus, alerts, and smooth web or app integration.</p>
-            </div>
-            <div class="sh-card">
-              <div style="font-size:22px;">⚙️</div>
-              <h3>Admin & Live Demos</h3>
-              <p>Custom admin controls for managing links and settings, plus live demo previews before final launch.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <nav class="hidden items-center gap-7 text-sm font-medium text-slate-300 md:flex">
+        <a href="#services" class="transition hover:text-white">Services</a>
+        <a href="#why-us" class="transition hover:text-white">Why Us</a>
+        <a href="#process" class="transition hover:text-white">How It Works</a>
+        <a href="#packages" class="transition hover:text-white">Packages</a>
+        <a href="#contact" class="transition hover:text-white">Contact</a>
+      </nav>
 
-      <section id="sh-why-us" class="sh-section">
-        <div class="sh-container sh-grid-2">
-          <div>
-            <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.4px; color:#818cf8;">Why MexGrid App Studio</span>
-            <h2 style="font-size:26px; font-weight:800; color:#fff; margin-top:6px;">Built for Speed, Control & Scale</h2>
-            <p style="color:#cbd5e1; font-size:14px; margin-top:10px; line-height:1.6;">We focus on clear structure, responsive interfaces, and easy day-to-day management so your project stays ready to grow.</p>
-            <ul class="sh-list">
-              <li>✔ <strong style="color:#fff;">Multi-Platform Coverage:</strong> Mobile, web, native, and Telegram in one studio.</li>
-              <li>✔ <strong style="color:#fff;">Clean, Modern UI:</strong> Fast loading times and mobile-first layouts.</li>
-              <li>✔ <strong style="color:#fff;">Easy to Manage:</strong> Practical controls for updating links, content, and settings.</li>
-              <li>✔ <strong style="color:#fff;">Transparent Process:</strong> Clear steps from initial idea and demo to live launch.</li>
-            </ul>
-          </div>
-
-          <div id="sh-process" class="sh-card">
-            <h3 style="margin-top:0;">How It Works</h3>
-            <div class="sh-step">
-              <div class="sh-step-num">1</div>
-              <div><strong style="color:#fff; font-size:14px;">Scope & Requirements</strong><p style="margin-top:3px;">Define your target platform, core features, and user flow.</p></div>
-            </div>
-            <div class="sh-step">
-              <div class="sh-step-num">2</div>
-              <div><strong style="color:#fff; font-size:14px;">Design & Demo Build</strong><p style="margin-top:3px;">Create a structured layout and interactive preview to review.</p></div>
-            </div>
-            <div class="sh-step">
-              <div class="sh-step-num">3</div>
-              <div><strong style="color:#fff; font-size:14px;">Development & Testing</strong><p style="margin-top:3px;">Build the app, website, or Telegram flow and verify performance.</p></div>
-            </div>
-            <div class="sh-step">
-              <div class="sh-step-num" style="background:#0891b2;">4</div>
-              <div><strong style="color:#fff; font-size:14px;">Launch & Support</strong><p style="margin-top:3px;">Deploy live and assist with post-launch updates.</p></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="sh-packages" class="sh-section">
-        <div class="sh-container">
-          <div class="sh-sec-head">
-            <span>Packages</span>
-            <h2>Flexible Project Tiers</h2>
-            <p>Start lean or build a complete multi-platform setup tailored to your workflow.</p>
-          </div>
-          <div class="sh-grid-3">
-            <div class="sh-card">
-              <span class="badge-num">Starter</span>
-              <h3>Quick Launch</h3>
-              <p>Best for early ideas, single landing pages, or basic bots.</p>
-              <ul class="sh-list">
-                <li>• 1 website/landing page or basic Telegram bot</li>
-                <li>• Mobile-responsive layout</li>
-                <li>• Core action buttons & contact setup</li>
-              </ul>
-              <a href="#sh-contact" class="sh-pkg-btn">Request a Quote</a>
-            </div>
-            <div class="sh-card sh-pkg-featured">
-              <span class="badge-num">Growth • Most Popular</span>
-              <h3>Studio Standard</h3>
-              <p>Ideal for apps, demo showcases, and controlled workflows.</p>
-              <ul class="sh-list">
-                <li>• Mobile/Android app or Web + Telegram setup</li>
-                <li>• Multi-view or multi-page structure</li>
-                <li>• Basic admin / settings controls</li>
-                <li>• Live demo preview</li>
-              </ul>
-              <a href="#sh-contact" class="sh-pkg-btn sh-pkg-btn-solid">Start a Project</a>
-            </div>
-            <div class="sh-card">
-              <span class="badge-num">Pro / Custom</span>
-              <h3>Full Platform Suite</h3>
-              <p>For multi-platform builds and custom operational flows.</p>
-              <ul class="sh-list">
-                <li>• Native/Mobile + Website + Telegram app</li>
-                <li>• Custom admin panel & workflows</li>
-                <li>• Full testing & live deployment</li>
-                <li>• Post-launch support</li>
-              </ul>
-              <a href="#sh-contact" class="sh-pkg-btn">Discuss Custom Scope</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="sh-contact" class="sh-section">
-        <div class="sh-contact-box">
-          <h2 style="font-size:26px; font-weight:800; color:#fff;">Ready to Build Your Next App or Web Project?</h2>
-          <p style="color:#cbd5e1; font-size:14px; max-width:540px; margin:10px auto 0; line-height:1.6;">Whether you need a Mobile App, Website, Native build, or Telegram App, share your idea and we will map out the right solution.</p>
-          <form id="studioHomeContactForm" class="sh-form" onsubmit="submitStudioHomeContact(event)">
-            <div>
-              <label>Your Name</label>
-              <input type="text" id="shcName" required placeholder="Enter your name" class="sh-input">
-            </div>
-            <div>
-              <label>Service Needed</label>
-              <select id="shcService" class="sh-input">
-                <option>Mobile / Android App</option>
-                <option>Website / Android Web</option>
-                <option>Native App</option>
-                <option>Telegram App / Bot</option>
-                <option>Multi-Platform Custom Solution</option>
-              </select>
-            </div>
-            <div>
-              <label>Project Summary & Contact Handle</label>
-              <textarea id="shcSummary" rows="3" required placeholder="Describe your project and share your WhatsApp or Telegram handle..." class="sh-input"></textarea>
-            </div>
-            <button type="submit" class="sh-btn-primary" style="width:100%;">Request a Quote on WhatsApp</button>
-          </form>
-        </div>
-      </section>
-
-      <footer class="sh-footer">
-        <div><strong style="color:#fff;">MexGrid App Studio</strong> • One Vision. Every Screen.</div>
-        <div>© 2026 MexGrid App Studio. All Rights Reserved.</div>
-      </footer>
-    </div>
-  </div>
-
-  <!-- Blank Home Area (Shown initially until GitHub Link or Studio Home is set) -->
-  <div id="defaultHomeContent" class="blank-home-area"></div>
-</section>
-
-<!-- ========================================================= -->
-<!-- SECTION 2: DEMOS VIEW (All 44+ & Custom Apps Inside Here) -->
-<!-- ========================================================= -->
-<section id="sectionDemos" class="hidden">
-  <header class="demos-hero">
-    <span class="badge-num">⚡ 100% Genuine | 44+ Ready Demos & Custom Solutions</span>
-    <h2>Explore <span>MexGrid App Studio</span> Demos</h2>
-    <p>Professional software, Android/WebView, Telegram apps & custom solutions. Direct UPI & Crypto payments inside Pay, instant order verification, and live WhatsApp support.</p>
-    <div class="search-wrap">
-      <i class="fas fa-search"></i>
-      <input type="text" id="search" onkeyup="filterApps()" placeholder="Search 44+ apps or custom buttons..." class="search-input">
+      <a href="#contact" class="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/25 transition hover:bg-indigo-500">
+        Start a Project
+      </a>
     </div>
   </header>
 
-  <main class="wrap">
-    <div id="grid" class="apps-grid"></div>
-  </main>
-</section>
-
-<!-- Footer -->
-<footer class="site-footer">
-  <p>&copy; 2026 MexGrid App Studio. All Rights Reserved.</p>
-</footer>
-
-<!-- Fixed Bottom Navigation Bar (Home, Demos, My Site, Pay, Share) -->
-<div class="bottom-nav">
-  <div class="bottom-nav-grid">
-    <button type="button" id="bottomNavHome" onclick="switchMainSection('home')" class="b-btn b-tab-active">
-      <i class="fas fa-home"></i> <span>Home</span>
-    </button>
-    <button type="button" id="bottomNavDemos" onclick="switchMainSection('demos')" class="b-btn b-tab-idle">
-      <i class="fas fa-th-large"></i> <span>Demos</span>
-    </button>
-    <button type="button" onclick="openMySite()" class="b-btn red-sky-btn">
-      <i class="fas fa-globe"></i> <span>My Site</span>
-    </button>
-    <button type="button" onclick="openPayModal()" class="b-btn red-sky-btn">
-      <i class="fas fa-qrcode"></i> <span>Pay</span>
-    </button>
-    <button type="button" onclick="openShareModal()" class="b-btn red-sky-btn">
-      <i class="fas fa-share-nodes"></i> <span>Share</span>
-    </button>
-  </div>
-</div>
-
-<!-- Floating Support Button -->
-<button type="button" onclick="toggleSupportModal()" class="floating-wa" title="WhatsApp Support">
-  <i class="fab fa-whatsapp"></i>
-</button>
-
-<!-- My Site Partner Hub Modal -->
-<div id="mySiteModal" class="modal-backdrop">
-  <div class="glass modal-box">
-    <button type="button" onclick="closeModal('mySiteModal')" class="close-x"><i class="fas fa-times"></i></button>
-
-    <div class="row-flex mb-3" style="justify-content:space-between; flex-wrap:wrap; padding-right:28px; border-bottom:1px solid #1f2937; padding-bottom:12px;">
-      <div>
-        <h2 class="text-sky" style="font-size:20px; font-weight:900;">MEXGRID <span style="color:#fff;">MY SITE</span> Partner Hub</h2>
-        <p class="text-xs text-muted">Google Sign-In + PIN • 25% Direct + 5% Referral Commission • Visitor Call & WhatsApp Lead History</p>
-      </div>
-      <div id="mySiteUserBadge" class="hidden row-flex text-xs font-bold text-cyan">
-        <span id="mySiteUserEmail"></span>
-        <button type="button" onclick="logoutMySiteGoogle()" class="btn btn-dark btn-sm">Logout</button>
-      </div>
-    </div>
-
-    <div id="mySiteLoginBox" class="panel-card" style="max-width:420px; margin:16px auto; text-align:center;">
-      <h3 class="font-bold mb-2">Promoter Google Sign-In</h3>
-      <p class="text-xs text-muted mb-3">Sign in with your Google account first, then enter your approved PIN to view referral stats, commission, and visitor history.</p>
-      <button type="button" onclick="loginMySiteGoogle()" class="btn btn-cyan btn-md" style="width:100%;">
-        <i class="fab fa-google"></i> Sign in with Google
-      </button>
-    </div>
-
-    <div id="mySitePinBox" class="hidden panel-card" style="max-width:360px; margin:16px auto; text-align:center;">
-      <h3 class="font-bold mb-2">Enter Secret PIN</h3>
-      <p id="mySitePromoterStatus" class="text-xs text-cyan mb-2"></p>
-      <input type="password" id="mySitePinInput" placeholder="Enter your PIN" class="field-input mb-2" style="text-align:center; letter-spacing:3px;">
-      <button type="button" onclick="verifyMySitePin()" class="btn btn-cyan btn-md" style="width:100%;">Unlock Partner Dashboard</button>
-      <p id="mySitePinError" class="text-xs mt-2 hidden" style="color:#f87171;"></p>
-    </div>
-
-    <div id="mySiteDashboard" class="hidden">
-      <div class="panel-card row-flex mb-3" style="justify-content:space-between; flex-wrap:wrap;">
-        <div>
-          <span class="text-xs text-cyan font-bold">Your Referral Link (25% Direct + 5% Referral)</span>
-          <div id="mySiteRefLink" class="text-sm font-bold mt-2" style="word-break:break-all;"></div>
-        </div>
-        <button type="button" onclick="copyMySiteRefLink()" class="btn btn-cyan btn-sm">Copy Link</button>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden py-20 sm:py-28">
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.18),_transparent_60%)]"></div>
+    <div class="mx-auto max-w-6xl px-4 text-center sm:px-6">
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-medium text-indigo-300 sm:text-sm">
+        <span class="h-2 w-2 rounded-full bg-cyan-400"></span>
+        Mobile • Web • Native • Telegram Solutions
       </div>
 
-      <div class="grid-3 mb-3">
-        <div class="panel-card">
-          <span class="text-xs text-muted">Direct Commission (25%)</span>
-          <div id="mySiteDirectComm" class="text-emerald mt-2" style="font-size:20px; font-weight:900;">₹0</div>
-        </div>
-        <div class="panel-card">
-          <span class="text-xs text-muted">Referral Commission (5%)</span>
-          <div id="mySiteRefComm" class="text-cyan mt-2" style="font-size:20px; font-weight:900;">₹0</div>
-        </div>
-        <div class="panel-card">
-          <span class="text-xs text-muted">Total Earned Commission</span>
-          <div id="mySiteGrandComm" class="text-amber mt-2" style="font-size:20px; font-weight:900;">₹0</div>
-        </div>
-      </div>
+      <h1 class="mx-auto max-w-4xl text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+        Turn Bold Ideas Into
+        <span class="bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
+          Smart Apps & Web Experiences
+        </span>
+      </h1>
 
-      <div class="panel-card mb-3">
-        <h3 class="text-sm font-bold mb-2">Visitor Call & WhatsApp Inquiry History</h3>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Visitor / Source</th>
-                <th>Phone / WhatsApp</th>
-                <th>App / Message</th>
-                <th>Ref ID</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="mySiteLeadsTbody"></tbody>
-          </table>
-        </div>
-      </div>
+      <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
+        At <strong class="text-white">MexGrid App Studio</strong>, we build fast
+        <span class="text-cyan-300">Mobile Apps</span>, responsive
+        <span class="text-cyan-300">Websites</span>, high-performance
+        <span class="text-cyan-300">Native Apps</span>, and interactive
+        <span class="text-cyan-300">Telegram Apps</span>—under one roof with clean structure and practical control.
+      </p>
 
-      <div class="panel-card">
-        <h3 class="text-sm font-bold mb-2">Verified Sales & Commission Attribution</h3>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Order / App</th>
-                <th>Sale Value</th>
-                <th>Your Share</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="mySiteCommTbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Share Choice Modal -->
-<div id="shareModal" class="modal-backdrop">
-  <div class="glass modal-box modal-sm">
-    <button type="button" onclick="closeModal('shareModal')" class="close-x"><i class="fas fa-times"></i></button>
-    <h3 class="font-bold mb-2">Share MexGrid App Studio</h3>
-    <p class="text-xs text-muted mb-3">Choose your preferred platform to share this portal</p>
-    <div class="card-row-2">
-      <button type="button" onclick="sharePortal('whatsapp'); closeModal('shareModal');" class="btn btn-emerald btn-md">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-      </button>
-      <button type="button" onclick="sharePortal('telegram'); closeModal('shareModal');" class="btn btn-sky btn-md">
-        <i class="fab fa-telegram"></i> Telegram
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Pay Modal -->
-<div id="payModal" class="modal-backdrop">
-  <div class="glass modal-box">
-    <button type="button" onclick="closeModal('payModal')" class="close-x"><i class="fas fa-times"></i></button>
-    <div class="mb-3" style="text-align:center;">
-      <span class="badge-num">SECURE GATEWAY</span>
-      <h2 class="mt-2" style="font-size:20px; font-weight:900;">Direct Payment & Order Verification</h2>
-      <p class="text-xs text-muted mt-2">Step 1: Pay via PhonePe/UPI or Crypto | Step 2: Submit 12-Digit UTR / TxHash below.</p>
-    </div>
-
-    <div class="grid-3 mb-3">
-      <div class="panel-card" style="text-align:center;">
-        <div class="badge-num mb-2">PhonePe / UPI Direct</div>
-        <div style="width:120px; height:120px; background:#fff; border-radius:10px; padding:6px; margin:0 auto 10px;">
-          <img id="displayPhonePeQr" src="" alt="PhonePe QR" style="width:100%; height:100%; object-fit:contain;">
-        </div>
-        <div class="row-flex mb-2">
-          <input type="text" readonly id="displayUpi" class="field-input flex-1" style="text-align:center;">
-          <button type="button" onclick="copyText('displayUpi')" class="btn btn-sky btn-sm">Copy</button>
-        </div>
-        <input type="number" id="upiPayAmount" placeholder="Enter Amount (₹ INR)" class="field-input mb-2" style="text-align:center;">
-        <button type="button" onclick="openUpiApp()" class="btn btn-cyan btn-md" style="width:100%;">
-          <i class="fas fa-bolt"></i> Pay Now (Open UPI)
+      <div class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <button type="button" onclick="openParentDemos()" class="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition hover:opacity-95 sm:w-auto sm:text-base">
+          Explore Services & Demos
         </button>
+        <a href="#contact" class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-7 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:text-white sm:w-auto sm:text-base">
+          Talk to Us
+        </a>
       </div>
 
-      <div class="panel-card" style="text-align:center;">
-        <div class="badge-num mb-2">USDT (TRC-20)</div>
-        <div style="width:120px; height:120px; background:#fff; border-radius:10px; padding:6px; margin:0 auto 10px;">
-          <img id="displayTrcQr" src="" alt="TRC20 QR" style="width:100%; height:100%; object-fit:contain;">
-        </div>
-        <div class="row-flex mb-2">
-          <input type="text" readonly id="displayTrc" class="field-input flex-1">
-          <button type="button" onclick="copyText('displayTrc')" class="btn btn-emerald btn-sm">Copy</button>
-        </div>
-        <p class="text-xs text-muted">Send USDT via Tron (TRC20) and enter TxHash below.</p>
-      </div>
-
-      <div class="panel-card" style="text-align:center;">
-        <div class="badge-num mb-2">USDT / BNB (BNB-20)</div>
-        <div style="width:120px; height:120px; background:#fff; border-radius:10px; padding:6px; margin:0 auto 10px;">
-          <img id="displayBnbQr" src="" alt="BNB20 QR" style="width:100%; height:100%; object-fit:contain;">
-        </div>
-        <div class="row-flex mb-2">
-          <input type="text" readonly id="displayBnb" class="field-input flex-1">
-          <button type="button" onclick="copyText('displayBnb')" class="btn btn-amber btn-sm">Copy</button>
-        </div>
-        <p class="text-xs text-muted">Send USDT/BNB via BSC (BEP20) and enter TxHash below.</p>
+      <!-- Platform Strip -->
+      <div class="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm font-medium text-slate-300">📱 Mobile Apps</div>
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm font-medium text-slate-300">🌐 Websites & Android Web</div>
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm font-medium text-slate-300">⚡ Native Builds</div>
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm font-medium text-slate-300">🤖 Telegram Apps</div>
       </div>
     </div>
+  </section>
 
-    <div class="panel-card">
-      <h3 class="text-sm font-bold text-sky mb-2">Submit Payment Proof (12-Digit UTR / TRX ID / Crypto Hash)</h3>
-      <div class="grid-2">
-        <div>
-          <label class="text-xs text-muted mb-2" style="display:block;">Select App / Service</label>
-          <select id="verifyAppSelect" class="field-select"></select>
+  <!-- Core Services -->
+  <section id="services" class="border-t border-slate-800/70 bg-slate-900/40 py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="text-center">
+        <span class="text-xs font-semibold uppercase tracking-widest text-cyan-400">Core Services</span>
+        <h2 class="mt-2 text-2xl font-bold text-white sm:text-4xl">What We Build</h2>
+        <p class="mx-auto mt-3 max-w-xl text-sm text-slate-400 sm:text-base">
+          Tailored solutions across devices, browsers, and chat interfaces—designed for speed and real-world use.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 transition hover:border-indigo-500/50">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/15 text-2xl">📱</div>
+          <h3 class="text-lg font-bold text-white">Mobile & Native Apps</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-slate-400">
+            Fast, smooth Android and mobile applications built with clean UI, device capabilities, and reliable performance.
+          </p>
         </div>
-        <div>
-          <label class="text-xs text-muted mb-2" style="display:block;">Payment Method</label>
-          <select id="verifyMethod" class="field-select">
-            <option value="PhonePe / UPI">PhonePe / UPI</option>
-            <option value="USDT (TRC-20)">USDT (TRC-20)</option>
-            <option value="USDT / BNB (BNB-20)">USDT / BNB (BNB-20)</option>
-          </select>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 transition hover:border-cyan-500/50">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/15 text-2xl">🌐</div>
+          <h3 class="text-lg font-bold text-white">Websites & Android Web</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-slate-400">
+            Lightweight, mobile-friendly websites, landing pages, and showcase storefronts built for browsers and WebView.
+          </p>
         </div>
-        <div>
-          <label class="text-xs text-muted mb-2" style="display:block;">Paid Amount (₹ or $)</label>
-          <input type="text" id="verifyAmount" placeholder="e.g. ₹2500 or $30" class="field-input">
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 transition hover:border-emerald-500/50">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/15 text-2xl">🤖</div>
+          <h3 class="text-lg font-bold text-white">Telegram Apps & Bots</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-slate-400">
+            Telegram Mini Apps and custom bot workflows with interactive menus, alerts, and smooth web or app integration.
+          </p>
         </div>
-        <div>
-          <label class="text-xs text-emerald font-bold mb-2" style="display:block;">12-Digit UTR / Hash Code *</label>
-          <input type="text" id="verifyTxHash" placeholder="Enter 12-digit UTR or Hash" class="field-input">
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 transition hover:border-amber-500/50">
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/15 text-2xl">⚙️</div>
+          <h3 class="text-lg font-bold text-white">Admin & Live Demos</h3>
+          <p class="mt-2.5 text-sm leading-relaxed text-slate-400">
+            Custom admin controls for managing links and settings, plus live demo previews before final launch.
+          </p>
         </div>
       </div>
-      <div class="row-flex mt-3" style="justify-content:flex-end;">
-        <button type="button" onclick="submitPaymentProof()" class="btn btn-cyan btn-md">
-          <i class="fas fa-paper-plane"></i> Confirm Order & Send Proof
-        </button>
+    </div>
+  </section>
+
+  <!-- Why Choose Us & Process -->
+  <section id="why-us" class="py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="grid items-center gap-10 lg:grid-cols-2">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-widest text-indigo-400">Why MexGrid App Studio</span>
+          <h2 class="mt-2 text-2xl font-bold text-white sm:text-4xl">Built for Speed, Control & Scale</h2>
+          <p class="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+            We focus on clear structure, responsive interfaces, and easy day-to-day management so your project stays ready to grow.
+          </p>
+
+          <ul class="mt-6 space-y-4 text-sm text-slate-300 sm:text-base">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-cyan-400">✔</span>
+              <span><strong class="text-white">Multi-Platform Coverage:</strong> Mobile, web, native, and Telegram in one studio.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-cyan-400">✔</span>
+              <span><strong class="text-white">Clean, Modern UI:</strong> Fast loading times and mobile-first layouts.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-cyan-400">✔</span>
+              <span><strong class="text-white">Easy to Manage:</strong> Practical controls for updating links, content, and settings.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-cyan-400">✔</span>
+              <span><strong class="text-white">Transparent Process:</strong> Clear steps from initial idea and demo to live launch.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div id="process" class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8">
+          <h3 class="text-xl font-bold text-white">How It Works</h3>
+          <div class="mt-6 space-y-5">
+            <div class="flex gap-4">
+              <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold">1</div>
+              <div>
+                <h4 class="font-semibold text-white">Scope & Requirements</h4>
+                <p class="text-sm text-slate-400">Define your target platform, core features, and user flow.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold">2</div>
+              <div>
+                <h4 class="font-semibold text-white">Design & Demo Build</h4>
+                <p class="text-sm text-slate-400">Create a structured layout and interactive preview to review.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold">3</div>
+              <div>
+                <h4 class="font-semibold text-white">Development & Testing</h4>
+                <p class="text-sm text-slate-400">Build the app, website, or Telegram flow and verify performance.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-600 text-sm font-bold">4</div>
+              <div>
+                <h4 class="font-semibold text-white">Launch & Support</h4>
+                <p class="text-sm text-slate-400">Deploy live and assist with post-launch updates.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- Support Modal -->
-<div id="supportModal" class="modal-backdrop">
-  <div class="glass modal-box modal-md">
-    <button type="button" onclick="toggleSupportModal()" class="close-x"><i class="fas fa-times"></i></button>
-    <h3 class="text-sm font-bold mb-2">MexGrid App Studio WhatsApp Support</h3>
-    <div class="mb-2">
-      <label class="text-xs text-muted">Your Name *</label>
-      <input type="text" id="supName" placeholder="Enter your name" class="field-input mt-2">
+  <!-- Packages -->
+  <section id="packages" class="border-t border-slate-800/70 bg-slate-900/40 py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="text-center">
+        <span class="text-xs font-semibold uppercase tracking-widest text-cyan-400">Packages</span>
+        <h2 class="mt-2 text-2xl font-bold text-white sm:text-4xl">Flexible Project Tiers</h2>
+        <p class="mx-auto mt-3 max-w-xl text-sm text-slate-400 sm:text-base">
+          Start lean or build a complete multi-platform setup tailored to your workflow.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-6 lg:grid-cols-3">
+        <div class="flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/80 p-7">
+          <div>
+            <span class="rounded-md bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-300">Starter</span>
+            <h3 class="mt-4 text-xl font-bold text-white">Quick Launch</h3>
+            <p class="mt-2 text-sm text-slate-400">Best for early ideas, single landing pages, or basic bots.</p>
+            <ul class="mt-6 space-y-3 text-sm text-slate-300">
+              <li>• 1 website/landing page or basic Telegram bot</li>
+              <li>• Mobile-responsive layout</li>
+              <li>• Core action buttons & contact setup</li>
+            </ul>
+          </div>
+          <a href="#contact" class="mt-8 block rounded-xl border border-slate-700 py-3 text-center text-sm font-semibold text-white transition hover:border-indigo-500">
+            Request a Quote
+          </a>
+        </div>
+
+        <div class="flex flex-col justify-between rounded-2xl border-2 border-indigo-500 bg-slate-900 p-7 shadow-xl shadow-indigo-500/10">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="rounded-md bg-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-300">Growth</span>
+              <span class="text-xs font-semibold text-cyan-400">Most Popular</span>
+            </div>
+            <h3 class="mt-4 text-xl font-bold text-white">Studio Standard</h3>
+            <p class="mt-2 text-sm text-slate-400">Ideal for apps, demo showcases, and controlled workflows.</p>
+            <ul class="mt-6 space-y-3 text-sm text-slate-300">
+              <li>• Mobile/Android app or Web + Telegram setup</li>
+              <li>• Multi-view or multi-page structure</li>
+              <li>• Basic admin / settings controls</li>
+              <li>• Live demo preview</li>
+            </ul>
+          </div>
+          <a href="#contact" class="mt-8 block rounded-xl bg-indigo-600 py-3 text-center text-sm font-semibold text-white transition hover:bg-indigo-500">
+            Start a Project
+          </a>
+        </div>
+
+        <div class="flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/80 p-7">
+          <div>
+            <span class="rounded-md bg-cyan-500/15 px-3 py-1 text-xs font-semibold text-cyan-300">Pro / Custom</span>
+            <h3 class="mt-4 text-xl font-bold text-white">Full Platform Suite</h3>
+            <p class="mt-2 text-sm text-slate-400">For multi-platform builds and custom operational flows.</p>
+            <ul class="mt-6 space-y-3 text-sm text-slate-300">
+              <li>• Native/Mobile + Website + Telegram app</li>
+              <li>• Custom admin panel & workflows</li>
+              <li>• Full testing & live deployment</li>
+              <li>• Post-launch support</li>
+            </ul>
+          </div>
+          <a href="#contact" class="mt-8 block rounded-xl border border-slate-700 py-3 text-center text-sm font-semibold text-white transition hover:border-cyan-500">
+            Discuss Custom Scope
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="grid-2 mb-2">
+  </section>
+
+  <!-- Contact / CTA -->
+  <section id="contact" class="py-20">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6">
+      <div class="rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/60 p-8 text-center sm:p-12">
+        <h2 class="text-2xl font-bold text-white sm:text-4xl">
+          Ready to Build Your Next App or Web Project?
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl text-sm text-slate-300 sm:text-base">
+          Whether you need a Mobile App, Website, Native build, or Telegram App, share your idea and we will map out the right solution.
+        </p>
+
+        <form id="homeContactForm" class="mx-auto mt-8 max-w-lg space-y-4 text-left" onsubmit="submitHomeContact(event)">
+          <div>
+            <label class="mb-1 block text-xs font-medium text-slate-300">Your Name</label>
+            <input type="text" id="hcName" required placeholder="Enter your name" class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="mb-1 block text-xs font-medium text-slate-300">Service Needed</label>
+            <select id="hcService" class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-white focus:border-indigo-500 focus:outline-none">
+              <option>Mobile / Android App</option>
+              <option>Website / Android Web</option>
+              <option>Native App</option>
+              <option>Telegram App / Bot</option>
+              <option>Multi-Platform Custom Solution</option>
+            </select>
+          </div>
+          <div>
+            <label class="mb-1 block text-xs font-medium text-slate-300">Project Summary & Contact Handle</label>
+            <textarea id="hcSummary" rows="3" required placeholder="Describe your project and share your WhatsApp or Telegram handle..." class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"></textarea>
+          </div>
+          <button type="submit" class="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition hover:opacity-95">
+            Request a Quote on WhatsApp
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-10">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-center sm:flex-row sm:px-6 sm:text-left">
       <div>
-        <label class="text-xs text-muted">Mobile Number *</label>
-        <input type="text" id="supPhone" placeholder="Your WhatsApp No" class="field-input mt-2">
+        <p class="font-bold text-white">MexGrid App Studio</p>
+        <p class="text-xs text-slate-400">One Vision. Every Screen.</p>
       </div>
-      <div>
-        <label class="text-xs text-muted">Location / City</label>
-        <input type="text" id="supCity" placeholder="Your City" class="field-input mt-2">
+      <div class="flex gap-6 text-xs text-slate-400">
+        <a href="#services" class="hover:text-white">Services</a>
+        <a href="#why-us" class="hover:text-white">Why Us</a>
+        <a href="#packages" class="hover:text-white">Packages</a>
+        <a href="#contact" class="hover:text-white">Contact</a>
       </div>
+      <p class="text-xs text-slate-500">© 2026 MexGrid App Studio. All Rights Reserved.</p>
     </div>
-    <div class="mb-2">
-      <label class="text-xs text-muted">Interested App / Inquiry</label>
-      <input type="text" id="supApp" placeholder="e.g. #01 Crypto Mining App" class="field-input mt-2">
-    </div>
-    <div class="mb-3">
-      <label class="text-xs text-muted">Your Message / Requirements</label>
-      <textarea id="supMsg" rows="3" placeholder="Describe what you want to build..." class="field-area mt-2"></textarea>
-    </div>
-    <button type="button" onclick="sendSupportForm()" class="btn btn-emerald btn-md" style="width:100%;">
-      <i class="fab fa-whatsapp"></i> Send to WhatsApp Business
-    </button>
-  </div>
-</div>
+  </footer>
 
-<!-- Stealth PIN Modal -->
-<div id="stealthModal" class="modal-backdrop">
-  <div class="glass modal-box modal-sm">
-    <button type="button" onclick="closeStealth()" class="close-x"><i class="fas fa-times"></i></button>
-    <h3 class="text-sm font-bold mb-2">Secret Access</h3>
-    <p class="text-xs text-muted mb-3">Enter PIN to open Admin Panel</p>
-    <input type="password" id="stealthPinInput" oninput="checkStealthPin()" placeholder="Enter PIN" autocomplete="off" class="field-input mb-2" style="text-align:center; letter-spacing:3px;">
-    <button type="button" onclick="checkStealthPinBtn()" class="btn btn-cyan btn-sm" style="width:100%;">Unlock</button>
-  </div>
-</div>
+  <script>
+    const FALLBACK_WA = "919876543210";
 
-<!-- Admin Dashboard Modal -->
-<div id="adminModal" class="modal-backdrop">
-  <div class="glass modal-box">
-    <button type="button" onclick="closeModal('adminModal')" class="close-x"><i class="fas fa-times"></i></button>
-    <div class="row-flex mb-2" style="justify-content:space-between; flex-wrap:wrap; padding-right:28px;">
-      <h2 class="text-sky" style="font-size:18px; font-weight:900;">MexGrid App Studio Admin Panel</h2>
-      <span id="firebaseSyncStatus" class="badge-num">Ready</span>
-    </div>
-
-    <div class="row-flex mb-3" style="flex-wrap:wrap; border-bottom:1px solid #1f2937; padding-bottom:10px;">
-      <button type="button" onclick="switchTab('settings')" id="tabBtnSettings" class="btn btn-cyan btn-sm">Settings, Home Link & QR</button>
-      <button type="button" onclick="switchTab('history')" id="tabBtnHistory" class="btn btn-dark btn-sm">Order History (<span id="historyCount">0</span>)</button>
-      <button type="button" onclick="switchTab('promoters')" id="tabBtnPromoters" class="btn btn-sky btn-sm">Promoters</button>
-    </div>
-
-    <div id="tabSettings">
-      <div class="panel-card mb-3">
-        <h3 class="text-sm font-bold mb-2">1. Home Page GitHub / Site Link & Settings</h3>
-        <div class="grid-2">
-          <div class="panel-card">
-            <label class="text-xs text-cyan font-bold">Home Page Link (URL or type "studio-home")</label>
-            <div class="row-flex mt-2">
-              <input type="text" id="setHomePageUrl" placeholder="GitHub URL or studio-home" class="field-input flex-1">
-              <button type="button" onclick="saveSingleField('homePageUrl', 'setHomePageUrl', 'Home Page Link')" class="btn btn-cyan btn-sm">Save Home</button>
-            </div>
-          </div>
-          <div class="panel-card">
-            <label class="text-xs text-sky font-bold">Secret Admin PIN</label>
-            <div class="row-flex mt-2">
-              <input type="text" id="setPin" class="field-input flex-1">
-              <button type="button" onclick="saveSingleField('pin', 'setPin', 'Admin PIN')" class="btn btn-cyan btn-sm">Save PIN</button>
-            </div>
-          </div>
-          <div class="panel-card">
-            <label class="text-xs text-sky font-bold">Mobile / WhatsApp Number</label>
-            <div class="row-flex mt-2">
-              <input type="text" id="setWa" class="field-input flex-1">
-              <button type="button" onclick="saveSingleField('wa', 'setWa', 'WhatsApp Number')" class="btn btn-cyan btn-sm">Save Phone</button>
-            </div>
-          </div>
-          <div class="panel-card">
-            <label class="text-xs text-sky font-bold">PhonePe / UPI ID</label>
-            <div class="row-flex mt-2">
-              <input type="text" id="setUpi" class="field-input flex-1">
-              <button type="button" onclick="saveSingleField('upi', 'setUpi', 'UPI ID')" class="btn btn-cyan btn-sm">Save UPI</button>
-            </div>
-          </div>
-          <div class="panel-card">
-            <label class="text-xs text-emerald font-bold">USDT (TRC-20) Address</label>
-            <div class="row-flex mt-2">
-              <input type="text" id="setTrc" class="field-input flex-1">
-              <button type="button" onclick="saveSingleField('trc', 'setTrc', 'TRC-20 Address')" class="btn btn-emerald btn-sm">Save TRC</button>
-            </div>
-          </div>
-          <div class="panel-card">
-            <label class="text-xs text-amber font-bold">USDT / BNB (BNB-20) Address</label>
-            <div class="row-flex mt-2">
-              <input type="text" id="setBnb" class="field-input flex-1">
-              <button type="button" onclick="saveSingleField('bnb', 'setBnb', 'BNB-20 Address')" class="btn btn-amber btn-sm">Save BNB</button>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="text-sm font-bold mt-4 mb-2">2. QR Code Upload or URL</h3>
-        <div class="grid-3">
-          <div class="panel-card">
-            <label class="text-xs font-bold">PhonePe QR</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'phonepeQr', 'PhonePe QR')" class="text-xs mt-2 mb-2" style="width:100%;">
-            <div class="row-flex">
-              <input type="text" id="setPhonepeQrUrl" placeholder="QR image URL..." class="field-input flex-1">
-              <button type="button" onclick="saveQrUrl('phonepeQr', 'setPhonepeQrUrl', 'PhonePe QR')" class="btn btn-cyan btn-sm">Save</button>
-            </div>
-          </div>
-          <div class="panel-card">
-            <label class="text-xs font-bold">USDT (TRC-20) QR</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'trcQr', 'TRC-20 QR')" class="text-xs mt-2 mb-2" style="width:100%;">
-            <div class="row-flex">
-              <input type="text" id="setTrcQrUrl" placeholder="QR image URL..." class="field-input flex-1">
-              <button type="button" onclick="saveQrUrl('trcQr', 'setTrcQrUrl', 'TRC-20 QR')" class="btn btn-emerald btn-sm">Save</button>
-            </div>
-          </div>
-          <div class="panel-card">
-            <label class="text-xs font-bold">BNB-20 QR</label>
-            <input type="file" accept="image/*" onchange="handleQrUpload(this, 'bnbQr', 'BNB-20 QR')" class="text-xs mt-2 mb-2" style="width:100%;">
-            <div class="row-flex">
-              <input type="text" id="setBnbQrUrl" placeholder="QR image URL..." class="field-input flex-1">
-              <button type="button" onclick="saveQrUrl('bnbQr', 'setBnbQrUrl', 'BNB-20 QR')" class="btn btn-amber btn-sm">Save</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel-card mb-3">
-        <h3 class="text-sm font-bold text-cyan mb-2">3. Add Custom App / Button (Inside Demos)</h3>
-        <div class="grid-3 mb-2">
-          <input type="text" id="newCustomName" placeholder="App / Button Name" class="field-input">
-          <input type="text" id="newCustomDesc" placeholder="Short description" class="field-input">
-          <input type="text" id="newCustomLink" placeholder="Demo URL" class="field-input">
-        </div>
-        <button type="button" onclick="addCustomApp()" class="btn btn-cyan btn-sm">Create & Save Custom Button</button>
-        <div id="customAppsAdminList" class="mt-3"></div>
-      </div>
-
-      <h3 class="text-sm font-bold mb-2">4. Manage 44 Default App Demo Links</h3>
-      <div id="adminAppList"></div>
-    </div>
-
-    <div id="tabHistory" class="hidden">
-      <div class="row-flex mb-3" style="justify-content:space-between;">
-        <h3 class="text-sm font-bold">Order & UTR / TxHash Logs</h3>
-        <button type="button" onclick="clearHistory()" class="btn btn-dark btn-sm">Clear History</button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Date / Time</th>
-              <th>App / Service</th>
-              <th>Method & Amount</th>
-              <th>UTR / Hash</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="historyTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="tabPromoters" class="hidden">
-      <div class="panel-card mb-3 row-flex" style="justify-content:space-between;">
-        <h3 class="text-sm font-bold">Partner / Promoter Management</h3>
-        <span id="adminPromotersCount" class="badge-num">0 Promoters</span>
-      </div>
-      <div id="adminPromotersList"></div>
-    </div>
-  </div>
-</div>
-
-<script>
-const CACHE_KEY = "MEXGRID_STUDIO_CACHE_V1";
-const REF_STORAGE_KEY = "MEXGRID_ACTIVE_REFERRAL_CODE";
-
-const DEFAULT_APPS = [
-  "Crypto Mining & HYIP Platform", "MLM & Referral Network", "Digital Wallet & Crypto Swap",
-  "Micro-Jobs & Task Earning", "Tap-to-Earn Mining Game", "Telegram Daily Reward Bot",
-  "Telegram E-commerce Shop", "Multi-Vendor Marketplace", "Single Product Landing Page",
-  "Digital Product Shop", "Grocery & Food Delivery App", "Doctor Appointment System",
-  "Hotel & Resort Booking", "Car or Bike Rental Platform", "Beauty Parlor Booking App",
-  "Video Streaming & OTT", "Social Club & Forum", "Podcast & Audio Streaming",
-  "Online Learning (LMS)", "Inventory & POS Software", "Real Estate Listing App",
-  "To-Do & Task Manager", "Restaurant QR Menu App", "AI Prompt Dashboard",
-  "AI Customer Support Bot", "AI Resume & Interview Coach", "AI Content Repurposing Tool",
-  "AI Voice Receptionist", "Home Maintenance Booking", "Second-Hand Marketplace",
-  "Coupon & Cashback App", "Subscription Box Manager", "Telemedicine & Health App",
-  "AI Diet & Calorie Tracker", "Micro-Workout & Yoga App", "Telegram DEX Token Swap",
-  "Telegram Prediction Market", "Telegram Paid Channel Bot", "Freelancer Invoice Portal",
-  "Expense & EMI Tracker", "Cloud Kitchen & Tiffin App", "Micro-Learning Skill App",
-  "Digital NFC Business Card", "Event Ticketing Platform"
-];
-
-const DEFAULT_SETTINGS = {
-  pin: "1234",
-  wa: "919876543210",
-  upi: "yourname@ybl",
-  trc: "TQn9Y2khEsLJW1ChVWFMSMeRDow5KcbLSE",
-  bnb: "0x71C3518B99...B249",
-  homePageUrl: "",
-  mySiteUrl: "",
-  phonepeQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeUPI",
-  trcQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRC20Wallet",
-  bnbQr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BNB20Wallet"
-};
-
-window.defaultApps = DEFAULT_APPS.slice();
-window.appLinks = Array(44).fill("");
-window.customApps = [];
-window.orderHistory = [];
-window.globalSettings = { ...DEFAULT_SETTINGS };
-window.activeMainSection = "home";
-
-(function captureRef() {
-  try {
-    const p = new URLSearchParams(window.location.search);
-    const ref = (p.get("ref") || "").trim();
-    if (ref) sessionStorage.setItem(REF_STORAGE_KEY, ref);
-    const active = sessionStorage.getItem(REF_STORAGE_KEY) || "";
-    if (active) {
-      document.getElementById("activeRefCodeText").innerText = active;
-      document.getElementById("activeRefBanner").classList.remove("hidden");
-    }
-  } catch (e) {}
-})();
-
-function getActiveReferralCode() {
-  try { return sessionStorage.getItem(REF_STORAGE_KEY) || ""; } catch (e) { return ""; }
-}
-
-function loadLocalCache() {
-  try {
-    const raw = localStorage.getItem(CACHE_KEY);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object") {
-      if (parsed.settings) window.globalSettings = { ...DEFAULT_SETTINGS, ...parsed.settings };
-      if (Array.isArray(parsed.appLinks)) window.appLinks = Array.from({ length: 44 }, (_, i) => parsed.appLinks[i] || "");
-      if (Array.isArray(parsed.customApps)) window.customApps = parsed.customApps.filter(Boolean);
-      if (Array.isArray(parsed.orderHistory)) window.orderHistory = parsed.orderHistory.filter(Boolean);
-    }
-  } catch (e) {}
-}
-
-function saveLocalCache() {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
-      settings: window.globalSettings,
-      appLinks: window.appLinks,
-      customApps: window.customApps,
-      orderHistory: window.orderHistory
-    }));
-  } catch (e) {}
-}
-
-loadLocalCache();
-</script>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, onValue, set, push, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA5s0SEZuGDapBtszVKcKkXPIaFQ-niXyk",
-    authDomain: "mgsml-app-store.firebaseapp.com",
-    databaseURL: "https://mgsml-app-store-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "mgsml-app-store",
-    storageBucket: "mgsml-app-store.firebasestorage.app",
-    messagingSenderId: "25990515693",
-    appId: "1:25990515693:web:8aaaf568ff0a240a0975e4",
-    measurementId: "G-L2DYJRHCQB"
-  };
-
-  let msAuthUser = null, msCurrentPromoter = null, msUnlocked = false;
-  let msPromotersMap = {}, msLeadsMap = {}, msOrdersMap = {};
-
-  try {
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const auth = getAuth(app);
-    const googleProvider = new GoogleAuthProvider();
-
-    const settingsRef = ref(db, "mgsml_store/settings");
-    const linksRef = ref(db, "mgsml_store/app_links");
-    const customAppsRef = ref(db, "mgsml_store/custom_apps");
-    const ordersRef = ref(db, "mgsml_store/orders");
-    const leadsRef = ref(db, "mgsml_store/leads_calls");
-    const promotersRef = ref(db, "mgsml_store/promoters");
-
-    function setStatusBadge(txt) {
-      const el = document.getElementById("firebaseSyncStatus");
-      if (el) el.innerText = txt;
-    }
-
-    onValue(settingsRef, (snap) => {
-      if (snap.exists() && snap.val()) {
-        window.globalSettings = { ...window.globalSettings, ...snap.val() };
-        saveLocalCache();
-        if (typeof window.applyHomePageLink === "function") window.applyHomePageLink();
-        if (typeof window.renderApps === "function") window.renderApps();
-      }
-      setStatusBadge("Firebase Connected");
-    });
-
-    onValue(linksRef, (snap) => {
-      if (snap.exists() && snap.val()) {
-        const val = snap.val();
-        window.appLinks = Array.from({ length: 44 }, (_, i) => val[i] || "");
-        saveLocalCache();
-        if (typeof window.renderApps === "function") window.renderApps();
-      }
-    });
-
-    onValue(customAppsRef, (snap) => {
-      if (snap.exists() && snap.val()) {
-        const val = snap.val();
-        window.customApps = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
-        saveLocalCache();
-        if (typeof window.renderApps === "function") window.renderApps();
-        if (typeof window.renderCustomAppsAdmin === "function") window.renderCustomAppsAdmin();
-      }
-    });
-
-    onValue(ordersRef, (snap) => {
-      msOrdersMap = snap.val() || {};
-      if (snap.exists() && snap.val()) {
-        const val = snap.val();
-        window.orderHistory = Array.isArray(val) ? val.filter(Boolean) : Object.values(val).filter(Boolean);
-        saveLocalCache();
-        if (document.getElementById("historyCount")) document.getElementById("historyCount").innerText = window.orderHistory.length;
-        if (typeof window.renderHistoryTable === "function") window.renderHistoryTable();
-      }
-      renderMySiteDashboard();
-    });
-
-    onValue(promotersRef, (snap) => {
-      msPromotersMap = snap.val() || {};
-      syncMySiteAuthView();
-      renderMySiteDashboard();
-      if (typeof window.renderAdminPromoters === "function") window.renderAdminPromoters();
-    });
-
-    onValue(leadsRef, (snap) => {
-      msLeadsMap = snap.val() || {};
-      renderMySiteDashboard();
-    });
-
-    window.syncSingleSettingCloud = (k, v) => { saveLocalCache(); set(ref(db, "mgsml_store/settings/" + k), v).catch(() => {}); };
-    window.saveLinksToFirebase = () => { saveLocalCache(); set(linksRef, window.appLinks).catch(() => {}); };
-    window.saveCustomAppsToFirebase = () => { saveLocalCache(); set(customAppsRef, window.customApps).catch(() => {}); };
-    window.saveOrdersToFirebase = () => { saveLocalCache(); set(ordersRef, window.orderHistory).catch(() => {}); };
-    window.pushVisitorLeadToFirebase = (payload) => {
-      push(leadsRef, { ...payload, referredBy: getActiveReferralCode() || "Direct", createdAt: new Date().toLocaleString(), status: "New" }).catch(() => {});
-    };
-
-    async function ensurePromoterAutoRegistered(user) {
-      if (!user || !user.uid) return null;
-      const userRef = ref(db, `mgsml_store/promoters/${user.uid}`);
-      const snap = await get(userRef);
-      if (snap.exists() && snap.val()) return { id: user.uid, ...snap.val() };
-      const rec = {
-        uid: user.uid, email: user.email || "", name: user.displayName || "Partner",
-        code: "PRM-" + String(user.uid).slice(-4).toUpperCase(), pin: "", sponsorId: "",
-        approved: false, canViewLeads: true, createdAt: new Date().toLocaleString()
-      };
-      await set(userRef, rec);
-      return { id: user.uid, ...rec };
-    }
-
-    window.loginMySiteGoogle = () => signInWithPopup(auth, googleProvider).then(r => ensurePromoterAutoRegistered(r.user)).catch(e => alert(e.message));
-    window.logoutMySiteGoogle = () => { msUnlocked = false; msCurrentPromoter = null; signOut(auth).catch(() => {}); };
-
-    onAuthStateChanged(auth, async (user) => {
-      msAuthUser = user;
-      if (user) await ensurePromoterAutoRegistered(user);
-      syncMySiteAuthView();
-    });
-
-    function resolveCurrentPromoterRecord() {
-      if (!msAuthUser) return null;
-      const found = Object.entries(msPromotersMap || {}).find(([k, p]) => p && (k === msAuthUser.uid || (p.email && p.email.toLowerCase() === (msAuthUser.email || "").toLowerCase())));
-      return found ? { id: found[0], ...found[1] } : null;
-    }
-
-    function syncMySiteAuthView() {
-      const badge = document.getElementById("mySiteUserBadge");
-      const loginBox = document.getElementById("mySiteLoginBox");
-      const pinBox = document.getElementById("mySitePinBox");
-      const dash = document.getElementById("mySiteDashboard");
-      const statusTxt = document.getElementById("mySitePromoterStatus");
-      if (!loginBox || !pinBox || !dash) return;
-
-      if (!msAuthUser) {
-        badge?.classList.add("hidden");
-        loginBox.classList.remove("hidden");
-        pinBox.classList.add("hidden");
-        dash.classList.add("hidden");
-        return;
-      }
-      badge?.classList.remove("hidden");
-      document.getElementById("mySiteUserEmail").innerText = msAuthUser.email || "";
-      loginBox.classList.add("hidden");
-
-      const rec = resolveCurrentPromoterRecord();
-      if (!rec || !rec.approved) {
-        msCurrentPromoter = null; msUnlocked = false;
-        dash.classList.add("hidden"); pinBox.classList.remove("hidden");
-        if (statusTxt) statusTxt.innerText = "Account registered. Approve & set PIN in Admin Panel > Promoters.";
-        return;
-      }
-      msCurrentPromoter = rec;
-      if (msUnlocked) {
-        pinBox.classList.add("hidden"); dash.classList.remove("hidden");
-        renderMySiteDashboard();
-      } else {
-        dash.classList.add("hidden"); pinBox.classList.remove("hidden");
-        if (statusTxt) statusTxt.innerText = `Welcome ${rec.name || ""} (${rec.code || rec.id}) — Enter PIN`;
-      }
-    }
-
-    window.verifyMySitePin = () => {
-      const entered = (document.getElementById("mySitePinInput")?.value || "").trim();
-      const errEl = document.getElementById("mySitePinError");
-      const rec = resolveCurrentPromoterRecord();
-      if (!rec || !rec.approved || String(rec.pin || "").trim() !== entered) {
-        if (errEl) { errEl.innerText = "Invalid PIN or not approved!"; errEl.classList.remove("hidden"); }
-        return;
-      }
-      msCurrentPromoter = rec; msUnlocked = true;
-      document.getElementById("mySitePinInput").value = "";
-      errEl?.classList.add("hidden");
-      syncMySiteAuthView();
-    };
-
-    window.copyMySiteRefLink = () => {
-      const txt = document.getElementById("mySiteRefLink")?.innerText || "";
-      if (txt) { navigator.clipboard.writeText(txt); alert("Referral link copied!"); }
-    };
-
-    window.saveSinglePromoterAdmin = async (uid) => {
-      const approved = Boolean(document.getElementById(`prom_approved_${uid}`)?.checked);
-      const pin = String(document.getElementById(`prom_pin_${uid}`)?.value || "").trim();
-      const code = String(document.getElementById(`prom_code_${uid}`)?.value || "").trim() || ("PRM-" + uid.slice(-4).toUpperCase());
-      const sponsorId = String(document.getElementById(`prom_sponsor_${uid}`)?.value || "").trim();
-      if (approved && !pin) { alert("Enter a PIN before approving."); return; }
-      await update(ref(db, `mgsml_store/promoters/${uid}`), { approved, pin, code, sponsorId });
-      alert("Promoter saved!");
-    };
-
-    window.renderAdminPromoters = () => {
-      const container = document.getElementById("adminPromotersList");
-      const countEl = document.getElementById("adminPromotersCount");
-      if (!container) return;
-      const entries = Object.entries(msPromotersMap || {});
-      if (countEl) countEl.innerText = `${entries.length} Promoters`;
-      container.innerHTML = entries.length ? entries.map(([uid, p]) => `
-        <div class="panel-card mb-2">
-          <div class="row-flex mb-2" style="justify-content:space-between;">
-            <div><strong>${escapeAttr(p?.name || "Partner")}</strong> <span class="text-xs text-cyan">(${escapeAttr(p?.email || "")})</span></div>
-            <label class="text-xs font-bold text-emerald"><input id="prom_approved_${escapeAttr(uid)}" type="checkbox" ${p?.approved ? "checked" : ""}> Approved</label>
-          </div>
-          <div class="grid-3 mb-2">
-            <input id="prom_code_${escapeAttr(uid)}" type="text" value="${escapeAttr(p?.code || "")}" placeholder="Code" class="field-input">
-            <input id="prom_pin_${escapeAttr(uid)}" type="text" value="${escapeAttr(p?.pin || "")}" placeholder="PIN" class="field-input">
-            <input id="prom_sponsor_${escapeAttr(uid)}" type="text" value="${escapeAttr(p?.sponsorId || "")}" placeholder="Sponsor ID" class="field-input">
-          </div>
-          <button type="button" onclick="saveSinglePromoterAdmin('${escapeAttr(uid)}')" class="btn btn-emerald btn-sm">Save Promoter</button>
-        </div>
-      `).join("") : `<p class="text-xs text-muted">No promoters yet.</p>`;
-    };
-
-    function renderMySiteDashboard() {
-      if (!msUnlocked || !msCurrentPromoter) return;
-      const myCode = msCurrentPromoter.code || msCurrentPromoter.id;
-      document.getElementById("mySiteRefLink").innerText = `${window.location.origin + window.location.pathname}?ref=${encodeURIComponent(myCode)}`;
-
-      const leadsTbody = document.getElementById("mySiteLeadsTbody");
-      const leadEntries = Object.entries(msLeadsMap || {});
-      leadsTbody.innerHTML = leadEntries.length ? leadEntries.slice().reverse().map(([id, l]) => `
-        <tr>
-          <td>${escapeAttr(l.visitorName || "Visitor")}</td>
-          <td>${escapeAttr(l.phone || "N/A")}</td>
-          <td>${escapeAttr(l.appInterested || l.message || "-")}</td>
-          <td>${escapeAttr(l.referredBy || "Direct")}</td>
-          <td>${l.phone ? `<a href="tel:${encodeURIComponent(l.phone)}" class="btn btn-emerald btn-sm">Call</a>` : escapeAttr(l.status || "New")}</td>
-        </tr>
-      `).join("") : `<tr><td colspan="5" class="text-muted">No leads yet.</td></tr>`;
-
-      const subCodes = Object.values(msPromotersMap || {}).filter(p => p && p.sponsorId === myCode && p.code).map(p => p.code);
-      let dSum = 0, rSum = 0, rows = "";
-      (Array.isArray(msOrdersMap) ? msOrdersMap : Object.values(msOrdersMap || {})).forEach(ord => {
-        if (!ord || ord.status !== "Verified") return;
-        const amt = Number(String(ord.numericAmount || 0).replace(/[^0-9.]/g, "")) || 0;
-        if (amt <= 0) return;
-        if (ord.referredBy === myCode) {
-          const e = amt * 0.25; dSum += e;
-          rows += `<tr><td>${escapeAttr(ord.date || "")}</td><td>${escapeAttr(ord.item || "")}</td><td>₹${amt}</td><td class="text-emerald font-bold">₹${e} (25%)</td><td>Verified</td></tr>`;
-        } else if (ord.referredBy && subCodes.includes(ord.referredBy)) {
-          const e = amt * 0.05; rSum += e;
-          rows += `<tr><td>${escapeAttr(ord.date || "")}</td><td>${escapeAttr(ord.item || "")}</td><td>₹${amt}</td><td class="text-cyan font-bold">₹${e} (5%)</td><td>Verified</td></tr>`;
+    function getParentWaNumber() {
+      try {
+        if (window.parent && window.parent.globalSettings && window.parent.globalSettings.wa) {
+          return String(window.parent.globalSettings.wa).replace(/[^0-9]/g, "") || FALLBACK_WA;
         }
-      });
-      document.getElementById("mySiteCommTbody").innerHTML = rows || `<tr><td colspan="5" class="text-muted">No verified commissions yet.</td></tr>`;
-      document.getElementById("mySiteDirectComm").innerText = `₹${dSum}`;
-      document.getElementById("mySiteRefComm").innerText = `₹${rSum}`;
-      document.getElementById("mySiteGrandComm").innerText = `₹${dSum + rSum}`;
+      } catch (_) {}
+      return FALLBACK_WA;
     }
-  } catch (e) {}
-</script>
 
-<script>
-let tapCount = 0, tapTimer;
+    function openParentDemos() {
+      try {
+        if (window.parent && typeof window.parent.switchMainSection === "function") {
+          window.parent.switchMainSection("demos");
+          return;
+        }
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: "OPEN_DEMOS" }, "*");
+          return;
+        }
+      } catch (_) {}
+      const sec = document.getElementById("services");
+      if (sec) sec.scrollIntoView({ behavior: "smooth" });
+    }
 
-function escapeAttr(str) {
-  return String(str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
+    function submitHomeContact(e) {
+      e.preventDefault();
+      const name = (document.getElementById("hcName")?.value || "").trim();
+      const service = (document.getElementById("hcService")?.value || "").trim();
+      const summary = (document.getElementById("hcSummary")?.value || "").trim();
+      if (!name || !summary) return;
 
-function hasActiveHomeSource() {
-  const val = String(window.globalSettings.homePageUrl || "").trim();
-  return val.length > 0;
-}
+      try {
+        if (window.parent && typeof window.parent.pushVisitorLeadToFirebase === "function") {
+          window.parent.pushVisitorLeadToFirebase({
+            visitorName: name,
+            phone: "",
+            appInterested: service,
+            message: summary,
+            source: "home_contact_form"
+          });
+        }
+      } catch (_) {}
 
-function updateHomeBlankMode() {
-  const isHomeActive = window.activeMainSection === "home";
-  if (isHomeActive && !hasActiveHomeSource()) {
-    document.body.classList.add("home-blank-mode");
-  } else {
-    document.body.classList.remove("home-blank-mode");
-  }
-}
+      const waNo = getParentWaNumber();
+      const text =
+        `🔔 *NEW MEXGRID APP STUDIO INQUIRY* 🔔\n\n` +
+        `👤 *Name:* ${name}\n` +
+        `🛠️ *Service:* ${service}\n` +
+        `📝 *Details:* ${summary}`;
 
-function switchMainSection(sectionName) {
-  window.activeMainSection = sectionName === "demos" ? "demos" : "home";
-  const homeSec = document.getElementById("sectionHome");
-  const demosSec = document.getElementById("sectionDemos");
-  const btnHome = document.getElementById("bottomNavHome");
-  const btnDemos = document.getElementById("bottomNavDemos");
-
-  if (window.activeMainSection === "demos") {
-    homeSec.classList.add("hidden");
-    demosSec.classList.remove("hidden");
-    btnDemos.className = "b-btn b-tab-active";
-    btnHome.className = "b-btn b-tab-idle";
-  } else {
-    demosSec.classList.add("hidden");
-    homeSec.classList.remove("hidden");
-    applyHomePageLink();
-    btnHome.className = "b-btn b-tab-active";
-    btnDemos.className = "b-btn b-tab-idle";
-  }
-  updateHomeBlankMode();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function applyHomePageLink() {
-  const rawVal = String(window.globalSettings.homePageUrl || "").trim();
-  const extBox = document.getElementById("externalHomeContainer");
-  const studioBox = document.getElementById("embeddedStudioHome");
-  const defBox = document.getElementById("defaultHomeContent");
-  const iframeEl = document.getElementById("externalHomeIframe");
-
-  extBox.classList.add("hidden");
-  studioBox.classList.add("hidden");
-  defBox.classList.add("hidden");
-
-  if (!rawVal) {
-    defBox.classList.remove("hidden");
-    if (iframeEl) iframeEl.src = "";
-  } else if (rawVal.toLowerCase() === "studio-home") {
-    studioBox.classList.remove("hidden");
-    if (iframeEl) iframeEl.src = "";
-  } else {
-    extBox.classList.remove("hidden");
-    if (iframeEl && iframeEl.src !== rawVal) iframeEl.src = rawVal;
-  }
-  updateHomeBlankMode();
-}
-
-function submitStudioHomeContact(e) {
-  e.preventDefault();
-  const name = (document.getElementById("shcName")?.value || "").trim();
-  const service = (document.getElementById("shcService")?.value || "").trim();
-  const summary = (document.getElementById("shcSummary")?.value || "").trim();
-  if (!name || !summary) return;
-
-  if (typeof window.pushVisitorLeadToFirebase === "function") {
-    window.pushVisitorLeadToFirebase({
-      visitorName: name,
-      phone: "",
-      appInterested: service,
-      message: summary,
-      source: "studio_home_contact"
-    });
-  }
-
-  const waNo = String(window.globalSettings.wa || "919876543210").replace(/[^0-9]/g, "");
-  const text =
-    `🔔 *NEW MEXGRID APP STUDIO INQUIRY* 🔔\n\n` +
-    `👤 *Name:* ${name}\n` +
-    `🛠️ *Service:* ${service}\n` +
-    `📝 *Details:* ${summary}`;
-
-  window.open(`https://wa.me/${waNo}?text=${encodeURIComponent(text)}`, "_blank");
-  document.getElementById("studioHomeContactForm")?.reset();
-}
-
-window.addEventListener("message", function (event) {
-  if (event.data && event.data.type === "OPEN_DEMOS") {
-    switchMainSection("demos");
-  }
-});
-
-function handleSecretTap() {
-  tapCount++;
-  clearTimeout(tapTimer);
-  tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
-  if (tapCount >= 5) {
-    tapCount = 0;
-    const modal = document.getElementById("stealthModal");
-    const inp = document.getElementById("stealthPinInput");
-    modal.classList.add("open");
-    inp.value = "";
-    inp.focus();
-  }
-}
-
-function closeStealth() { document.getElementById("stealthModal").classList.remove("open"); }
-
-function syncAdminInputs() {
-  document.getElementById("setHomePageUrl").value = window.globalSettings.homePageUrl || "";
-  document.getElementById("setPin").value = window.globalSettings.pin || "";
-  document.getElementById("setWa").value = window.globalSettings.wa || "";
-  document.getElementById("setUpi").value = window.globalSettings.upi || "";
-  document.getElementById("setTrc").value = window.globalSettings.trc || "";
-  document.getElementById("setBnb").value = window.globalSettings.bnb || "";
-  document.getElementById("setPhonepeQrUrl").value = window.globalSettings.phonepeQr || "";
-  document.getElementById("setTrcQrUrl").value = window.globalSettings.trcQr || "";
-  document.getElementById("setBnbQrUrl").value = window.globalSettings.bnbQr || "";
-}
-
-function openAdminPanel() {
-  closeStealth();
-  syncAdminInputs();
-  renderAdminApps();
-  renderCustomAppsAdmin();
-  renderHistoryTable();
-  if (typeof window.renderAdminPromoters === "function") window.renderAdminPromoters();
-  document.getElementById("adminModal").classList.add("open");
-}
-
-function checkStealthPin() {
-  if (document.getElementById("stealthPinInput").value.trim() === String(window.globalSettings.pin)) openAdminPanel();
-}
-
-function checkStealthPinBtn() {
-  if (document.getElementById("stealthPinInput").value.trim() === String(window.globalSettings.pin)) openAdminPanel();
-  else alert("Incorrect PIN!");
-}
-
-function saveSingleField(key, inputId, label) {
-  const val = document.getElementById(inputId).value.trim();
-  if (key === "pin" && !val) { alert("PIN cannot be empty!"); return; }
-  window.globalSettings[key] = val;
-  saveLocalCache();
-  if (typeof window.syncSingleSettingCloud === "function") window.syncSingleSettingCloud(key, val);
-  applyHomePageLink();
-  renderApps();
-  alert(`${label} saved!`);
-}
-
-function saveQrUrl(qrKey, inputId, label) {
-  const val = document.getElementById(inputId).value.trim();
-  if (!val) { alert("Enter QR URL!"); return; }
-  window.globalSettings[qrKey] = val;
-  saveLocalCache();
-  if (typeof window.syncSingleSettingCloud === "function") window.syncSingleSettingCloud(qrKey, val);
-  renderApps();
-  alert(`${label} saved!`);
-}
-
-function openShareModal() { document.getElementById("shareModal").classList.add("open"); }
-function openPayModal(preselected = "") {
-  if (preselected) document.getElementById("verifyAppSelect").value = preselected;
-  document.getElementById("payModal").classList.add("open");
-}
-function openMySite() {
-  const ext = (window.globalSettings.mySiteUrl || "").trim();
-  if (ext) { window.open(ext, "_blank"); return; }
-  document.getElementById("mySiteModal").classList.add("open");
-}
-function closeModal(id) { document.getElementById(id).classList.remove("open"); }
-
-function sharePortal(platform) {
-  const base = window.location.origin + window.location.pathname;
-  const ref = getActiveReferralCode();
-  const siteUrl = ref ? `${base}?ref=${encodeURIComponent(ref)}` : base;
-  const text = `MexGrid App Studio — 44+ Ready Demos & Custom App Solutions: ${siteUrl}`;
-  if (platform === "whatsapp") window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
-  else window.open(`https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodeURIComponent(text)}`, "_blank");
-}
-
-function handleVisitDemo(link, label) {
-  if (link && String(link).trim()) window.open(String(link).trim(), "_blank");
-  else alert(`Demo link for ${label} is not set yet.`);
-}
-
-function buildAppCardHtml({ badge, title, desc, link, orderLabel, waLabel, isCustom }) {
-  return `
-    <div class="glass app-card" data-name="${escapeAttr(title.toLowerCase())}">
-      <div>
-        <div class="card-top">
-          <span class="badge-num">${escapeAttr(badge)}</span>
-          <i class="fas ${isCustom ? "fa-wand-magic-sparkles" : "fa-code"} text-sky"></i>
-        </div>
-        <div class="app-title">${escapeAttr(title)}</div>
-        <div class="app-desc">${escapeAttr(desc || "Ready-to-launch solution with admin control.")}</div>
-      </div>
-      <div>
-        <div class="card-row-2">
-          <button type="button" onclick="handleVisitDemo('${escapeAttr(link)}', '${escapeAttr(orderLabel)}')" class="btn btn-cyan btn-sm"><i class="fas fa-eye"></i> Visit Demo</button>
-          <button type="button" onclick="selectAppToOrder('${escapeAttr(orderLabel)}')" class="btn btn-amber btn-sm"><i class="fas fa-shopping-cart"></i> Order Now</button>
-        </div>
-        <button type="button" onclick="chatSpecificApp('${escapeAttr(waLabel)}')" class="btn btn-emerald btn-sm" style="width:100%;"><i class="fab fa-whatsapp"></i> WhatsApp — ${escapeAttr(badge)}</button>
-      </div>
-    </div>`;
-}
-
-function renderApps() {
-  const grid = document.getElementById("grid");
-  const sel = document.getElementById("verifyAppSelect");
-  if (!grid) return;
-  let html = "", opts = `<option value="Custom Project">Custom Project / Service</option>`;
-  window.defaultApps.forEach((name, i) => {
-    const num = String(i + 1).padStart(2, "0");
-    const link = window.appLinks[i] || "";
-    const full = `#${num} ${name}`;
-    opts += `<option value="${escapeAttr(full)}">${escapeAttr(full)}</option>`;
-    html += buildAppCardHtml({ badge: `#${num}`, title: name, desc: "Ready-to-launch web & app solution.", link, orderLabel: full, waLabel: full, isCustom: false });
-  });
-  (window.customApps || []).forEach((item, idx) => {
-    if (!item || !item.name) return;
-    const badge = `CUSTOM #${idx + 1}`;
-    const full = `${badge} ${item.name}`;
-    opts += `<option value="${escapeAttr(full)}">${escapeAttr(full)}</option>`;
-    html += buildAppCardHtml({ badge, title: item.name, desc: item.desc || "Custom button.", link: item.link || "", orderLabel: full, waLabel: full, isCustom: true });
-  });
-  grid.innerHTML = html;
-  if (sel) sel.innerHTML = opts;
-  if (document.getElementById("displayUpi")) document.getElementById("displayUpi").value = window.globalSettings.upi || "";
-  if (document.getElementById("displayTrc")) document.getElementById("displayTrc").value = window.globalSettings.trc || "";
-  if (document.getElementById("displayBnb")) document.getElementById("displayBnb").value = window.globalSettings.bnb || "";
-  if (document.getElementById("displayPhonePeQr")) document.getElementById("displayPhonePeQr").src = window.globalSettings.phonepeQr || "";
-  if (document.getElementById("displayTrcQr")) document.getElementById("displayTrcQr").src = window.globalSettings.trcQr || "";
-  if (document.getElementById("displayBnbQr")) document.getElementById("displayBnbQr").src = window.globalSettings.bnbQr || "";
-  filterApps();
-}
-
-function chatSpecificApp(appTitle) {
-  if (typeof window.pushVisitorLeadToFirebase === "function") {
-    window.pushVisitorLeadToFirebase({ visitorName: "WhatsApp Click", phone: "", appInterested: appTitle, source: "whatsapp_button" });
-  }
-  const msg = `Hello MexGrid App Studio, inquiry about ${appTitle}.`;
-  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(msg)}`, "_blank");
-}
-
-function toggleSupportModal() { document.getElementById("supportModal").classList.toggle("open"); }
-
-function sendSupportForm() {
-  const name = document.getElementById("supName").value.trim();
-  const phone = document.getElementById("supPhone").value.trim();
-  const city = document.getElementById("supCity").value.trim() || "N/A";
-  const app = document.getElementById("supApp").value.trim() || "General";
-  const msg = document.getElementById("supMsg").value.trim() || "";
-  if (!name || !phone) { alert("Name and Mobile Number required!"); return; }
-  if (typeof window.pushVisitorLeadToFirebase === "function") {
-    window.pushVisitorLeadToFirebase({ visitorName: `${name} (${city})`, phone, appInterested: app, message: msg, source: "whatsapp_form" });
-  }
-  const waText = `Name: ${name}\nPhone: ${phone}\nCity: ${city}\nApp: ${app}\nMessage: ${msg}`;
-  window.open(`https://wa.me/${window.globalSettings.wa}?text=${encodeURIComponent(waText)}`, "_blank");
-  toggleSupportModal();
-}
-
-function selectAppToOrder(title) { openPayModal(title); }
-
-function openUpiApp() {
-  const amt = document.getElementById("upiPayAmount").value.trim();
-  if (!amt || Number(amt) <= 0) { alert("Enter amount first!"); return; }
-  document.getElementById("verifyAmount").value = `₹${amt}`;
-  document.getElementById("verifyMethod").value = "PhonePe / UPI";
-  window.location.href = `upi://pay?pa=${encodeURIComponent(window.globalSettings.upi)}&pn=MexGrid%20App%20Studio&am=${encodeURIComponent(amt)}&cu=INR`;
-}
-
-function submitPaymentProof() {
-  const app = document.getElementById("verifyAppSelect").value;
-  const method = document.getElementById("verifyMethod").value;
-  const amount = document.getElementById("verifyAmount").value.trim() || "Not Specified";
-  const txHash = document.getElementById("verifyTxHash").value.trim();
-  if (!txHash) { alert("Enter UTR / Hash!"); return; }
-  const numericAmount = Number(amount.replace(/[^0-9.]/g, "")) || 0;
-  window.orderHistory.unshift({ date: new Date().toLocaleString(), item: app, method: `${method} (${amount})`, numericAmount, referredBy: getActiveReferralCode() || "Direct", hash: txHash, status: "Pending" });
-  saveLocalCache();
-  if (typeof window.saveOrdersToFirebase === "function") window.saveOrdersToFirebase();
-  document.getElementById("verifyTxHash").value = "";
-  closeModal("payModal");
-  alert("Order proof saved!");
-}
-
-function renderHistoryTable() {
-  const tbody = document.getElementById("historyTableBody");
-  if (!tbody) return;
-  document.getElementById("historyCount").innerText = window.orderHistory.length;
-  tbody.innerHTML = window.orderHistory.length ? window.orderHistory.map((ord, i) => `
-    <tr>
-      <td>${escapeAttr(ord.date)}</td>
-      <td>${escapeAttr(ord.item)}</td>
-      <td>${escapeAttr(ord.method)}</td>
-      <td>${escapeAttr(ord.hash || "N/A")}</td>
-      <td><button type="button" onclick="toggleOrderStatus(${i})" class="btn btn-sky btn-sm">${escapeAttr(ord.status)}</button></td>
-    </tr>
-  `).join("") : `<tr><td colspan="5" class="text-muted">No orders yet.</td></tr>`;
-}
-
-function toggleOrderStatus(i) {
-  window.orderHistory[i].status = window.orderHistory[i].status === "Verified" ? "Pending" : "Verified";
-  saveLocalCache();
-  if (typeof window.saveOrdersToFirebase === "function") window.saveOrdersToFirebase();
-  renderHistoryTable();
-}
-
-function clearHistory() {
-  if (!confirm("Clear all history?")) return;
-  window.orderHistory = [];
-  saveLocalCache();
-  if (typeof window.saveOrdersToFirebase === "function") window.saveOrdersToFirebase();
-  renderHistoryTable();
-}
-
-function switchTab(tab) {
-  ["tabSettings", "tabHistory", "tabPromoters"].forEach(id => document.getElementById(id).classList.add("hidden"));
-  if (tab === "settings") document.getElementById("tabSettings").classList.remove("hidden");
-  if (tab === "history") { document.getElementById("tabHistory").classList.remove("hidden"); renderHistoryTable(); }
-  if (tab === "promoters") { document.getElementById("tabPromoters").classList.remove("hidden"); if (typeof window.renderAdminPromoters === "function") window.renderAdminPromoters(); }
-}
-
-function handleQrUpload(input, key, label) {
-  const file = input.files && input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    window.globalSettings[key] = ev.target.result;
-    saveLocalCache();
-    if (typeof window.syncSingleSettingCloud === "function") window.syncSingleSettingCloud(key, ev.target.result);
-    renderApps();
-    alert(`${label} uploaded!`);
-  };
-  reader.readAsDataURL(file);
-}
-
-function addCustomApp() {
-  const name = document.getElementById("newCustomName").value.trim();
-  const desc = document.getElementById("newCustomDesc").value.trim();
-  const link = document.getElementById("newCustomLink").value.trim();
-  if (!name) { alert("Enter name!"); return; }
-  window.customApps.push({ id: "c_" + Date.now(), name, desc, link });
-  document.getElementById("newCustomName").value = "";
-  document.getElementById("newCustomDesc").value = "";
-  document.getElementById("newCustomLink").value = "";
-  saveLocalCache();
-  if (typeof window.saveCustomAppsToFirebase === "function") window.saveCustomAppsToFirebase();
-  renderApps();
-  renderCustomAppsAdmin();
-}
-
-function saveCustomApp(idx) {
-  window.customApps[idx].name = document.getElementById(`custom_name_${idx}`).value.trim() || window.customApps[idx].name;
-  window.customApps[idx].link = document.getElementById(`custom_link_${idx}`).value.trim();
-  saveLocalCache();
-  if (typeof window.saveCustomAppsToFirebase === "function") window.saveCustomAppsToFirebase();
-  renderApps();
-  alert("Custom button saved!");
-}
-
-function deleteCustomApp(idx) {
-  window.customApps.splice(idx, 1);
-  saveLocalCache();
-  if (typeof window.saveCustomAppsToFirebase === "function") window.saveCustomAppsToFirebase();
-  renderApps();
-  renderCustomAppsAdmin();
-}
-
-function renderCustomAppsAdmin() {
-  const box = document.getElementById("customAppsAdminList");
-  if (!box) return;
-  box.innerHTML = (window.customApps || []).map((item, idx) => `
-    <div class="row-flex mb-2" style="flex-wrap:wrap;">
-      <input type="text" id="custom_name_${idx}" value="${escapeAttr(item.name)}" class="field-input flex-1">
-      <input type="text" id="custom_link_${idx}" value="${escapeAttr(item.link || "")}" placeholder="Demo URL" class="field-input flex-1">
-      <button type="button" onclick="saveCustomApp(${idx})" class="btn btn-cyan btn-sm">Save</button>
-      <button type="button" onclick="deleteCustomApp(${idx})" class="btn btn-dark btn-sm">Delete</button>
-    </div>
-  `).join("");
-}
-
-function renderAdminApps() {
-  const list = document.getElementById("adminAppList");
-  if (!list) return;
-  list.innerHTML = window.defaultApps.map((name, i) => {
-    const num = String(i + 1).padStart(2, "0");
-    return `
-      <div class="panel-card row-flex mb-2" style="flex-wrap:wrap;">
-        <span class="badge-num">#${num}</span>
-        <span class="text-xs font-bold flex-1">${escapeAttr(name)}</span>
-        <input type="text" id="link_${i}" value="${escapeAttr(window.appLinks[i] || "")}" placeholder="Demo URL" class="field-input" style="max-width:260px;">
-        <button type="button" onclick="saveSingleLink(${i})" class="btn btn-cyan btn-sm">Save</button>
-      </div>`;
-  }).join("");
-}
-
-function saveSingleLink(i) {
-  window.appLinks[i] = document.getElementById(`link_${i}`).value.trim();
-  saveLocalCache();
-  if (typeof window.saveLinksToFirebase === "function") window.saveLinksToFirebase();
-  renderApps();
-  alert(`#${String(i + 1).padStart(2, "0")} link saved!`);
-}
-
-function filterApps() {
-  const q = (document.getElementById("search")?.value || "").toLowerCase();
-  document.querySelectorAll(".app-card").forEach(c => {
-    c.style.display = (c.dataset.name || "").includes(q) ? "flex" : "none";
-  });
-}
-
-function copyText(id) {
-  const el = document.getElementById(id);
-  el.select();
-  navigator.clipboard.writeText(el.value);
-  alert("Copied: " + el.value);
-}
-
-applyHomePageLink();
-renderApps();
-switchMainSection("home");
-</script>
+      window.open(`https://wa.me/${waNo}?text=${encodeURIComponent(text)}`, "_blank");
+      document.getElementById("homeContactForm")?.reset();
+    }
+  </script>
 </body>
 </html>
